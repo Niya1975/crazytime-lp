@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="新橋のアミューズメントポーカールーム「Crazy Time（クレイジータイム）」。初心者歓迎。トーナメント・リングゲーム・無料開放デーを毎週開催。東京都港区新橋3-11-2 cozy新橋5F。仕事帰りや週末に気軽に立ち寄れるポーカールームです。">
+<title>Crazy Time（クレイジータイム）| 新橋のアミューズメントポーカールーム</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;700&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+<style>
+/* ===================== TOKENS ===================== */
+:root {
+  --bg:        #f4f7ff;
+  --bg-card:   #ffffff;
+  --bg-green:  #edf2ff;
+  --bg-green2: #dce8ff;
+  --gold:      #1a5cd6;
+  --gold-l:    #3d7cff;
+  --gold-d:    rgba(26,92,214,.1);
+  --green-a:   #3d68c0;
+  --pink:      #e85aa0;
+  --text:      #0d1520;
+  --text-m:    #6b7380;
+  --text-l:    #374151;
+  --bord:      rgba(26,92,214,.15);
+  --bord-s:    rgba(26,92,214,.45);
+  --r:         12px;
+  --serif:     'Shippori Mincho', Georgia, serif;
+  --sans:      'Noto Sans JP', 'Hiragino Kaku Gothic ProN', sans-serif;
+  --shadow-g:  0 0 24px rgba(26,92,214,.12);
+}
+
+/* ===================== RESET ===================== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--sans);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.75;
+  -webkit-font-smoothing: antialiased;
+  padding-top: 58px;
+  padding-bottom: 68px;
+}
+a { color: inherit; text-decoration: none; }
+h1, h2, h3 { font-family: var(--serif); line-height: 1.32; }
+h1 { font-size: clamp(1.85rem, 5.5vw, 3.2rem); font-weight: 700; }
+h2 { font-size: clamp(1.4rem, 4vw, 2.1rem); font-weight: 700; }
+h3 { font-size: 1.05rem; font-weight: 600; }
+p { font-size: clamp(.88rem, 2.4vw, .97rem); color: var(--text-l); }
+
+/* ===================== LAYOUT ===================== */
+.container { max-width: 960px; margin: 0 auto; padding: 0 20px; }
+section { padding: 68px 0; }
+.lbl {
+  font-size: .7rem; letter-spacing: .18em; color: var(--gold);
+  text-transform: uppercase; margin-bottom: 7px; font-family: Georgia, serif;
+}
+.gline { display: block; width: 40px; height: 2px; background: var(--gold); margin: 14px 0 24px; }
+.gline.c { margin: 14px auto 24px; }
+
+/* ===================== CARDS ===================== */
+.card {
+  background: #ffffff;
+  border: 1px solid rgba(26,92,214,.15);
+  border-radius: var(--r);
+  padding: 24px 20px;
+  transition: border-color .2s, box-shadow .2s;
+}
+.card:hover { border-color: rgba(26,92,214,.4); box-shadow: 0 0 24px rgba(26,92,214,.1); }
+
+/* ===================== BUTTONS ===================== */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  gap: 8px; padding: 14px 26px; border-radius: 50px;
+  font-family: var(--sans); font-size: .9rem; font-weight: 700;
+  cursor: pointer; transition: all .22s; min-height: 50px;
+  border: none; white-space: nowrap;
+}
+.btn-g  { background: #06C755; color: #ffffff; }
+.btn-g:hover  { background: #04a847; }
+.btn-o  { background: transparent; border: 1.5px solid var(--gold); color: var(--gold); }
+.btn-o:hover  { background: var(--gold-d); }
+.btn-dk { background: var(--bg-green2); border: 1.5px solid var(--green-a); color: var(--text); }
+.btn-dk:hover { border-color: var(--gold); }
+.btn-lg { padding: 17px 34px; font-size: 1rem; min-height: 56px; }
+.btn-sm { padding: 10px 18px; font-size: .8rem; min-height: 44px; }
+
+/* ===================== NAV ===================== */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: rgba(244,247,255,.96); backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(26,92,214,.15); height: 58px;
+  display: flex; align-items: center; justify-content: space-between; padding: 0 20px;
+}
+.nav-logo {
+  font-family: var(--serif); font-size: 1rem; font-weight: 700;
+  color: #0d1520; display: flex; align-items: center; gap: 6px;
+  white-space: nowrap;
+}
+.nav-logo .suit { color: var(--gold); }
+.nav-ul { display: none; list-style: none; gap: 22px; }
+.nav-ul a { color: #4b5878; font-size: .82rem; transition: color .2s; }
+.nav-ul a:hover { color: var(--gold); }
+@media (min-width: 768px) { .nav-ul { display: flex; } }
+
+/* ===================== HERO ===================== */
+#hero {
+  min-height: 100svh;
+  display: flex; flex-direction: column; justify-content: center; align-items: center;
+  text-align: center; padding: 60px 24px 80px;
+  position: relative; overflow: hidden;
+  background: #08122a;
+}
+#hero::before {
+  content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 2;
+  background: linear-gradient(to bottom, rgba(8,18,42,.45) 0%, rgba(8,18,42,.62) 100%);
+}
+.hero-video {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; z-index: 1; pointer-events: none;
+}
+.h-suit {
+  position: absolute; font-size: 9rem; pointer-events: none; user-select: none;
+  color: rgba(26,92,214,.06);
+}
+.h-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(26,92,214,.08); border: 1px solid rgba(26,92,214,.2);
+  border-radius: 50px; padding: 5px 15px; font-size: .77rem; color: #ffffff;
+  margin-bottom: 22px; font-weight: 500; letter-spacing: .04em;
+  background: rgba(255,255,255,.14); border: 1px solid rgba(255,255,255,.3);
+}
+.h-title { color: #ffffff; margin-bottom: 18px; text-shadow: 0 2px 16px rgba(0,0,0,.3); }
+.h-title .acc { color: #a8cfff; }
+.h-sub {
+  font-size: clamp(.87rem, 2.4vw, 1rem); color: rgba(255,255,255,.8);
+  max-width: 600px; margin: 0 auto 34px; line-height: 1.9;
+}
+.h-cta { display: flex; flex-direction: column; gap: 12px; width: 100%; max-width: 440px; }
+.h-cta .btn { width: 100%; }
+@media (min-width: 520px) { .h-cta { flex-direction: row; } 
+  .h-cta .btn { width: auto; }
+}
+.h-info { margin-top: 32px; display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; }
+.h-info-i { display: flex; align-items: center; gap: 7px; font-size: .77rem; color: rgba(255,255,255,.7); }
+.h-info-i i { color: #a8cfff; font-size: .7rem; }
+
+/* ===================== ABOUT ===================== */
+#about { background: var(--bg-green); }
+.about-body { max-width: 680px; margin-bottom: 40px; }
+.about-grid { display: grid; grid-template-columns: 1fr; gap: 14px; }
+@media (min-width: 640px) { .about-grid { grid-template-columns: repeat(3,1fr); } }
+.about-card { padding: 24px 20px; background: #ffffff; border: 1px solid rgba(26,92,214,.15); border-radius: var(--r); box-shadow: 0 2px 12px rgba(26,92,214,.06); }
+.about-icon {
+  width: 44px; height: 44px; background: rgba(26,92,214,.1); border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--gold); font-size: 1.1rem; margin-bottom: 14px;
+}
+.about-card h3 { margin-bottom: 6px; }
+
+/* ===================== MID CTA ===================== */
+.mid-cta {
+  text-align: center; padding: 36px 20px;
+  background: #edf2ff; border-top: 1px solid rgba(26,92,214,.12); border-bottom: 1px solid rgba(26,92,214,.12);
+}
+.mid-cta p { font-size: .9rem; color: #374151; margin-bottom: 14px; }
+
+/* ===================== EVENTS ===================== */
+#events { background: var(--bg); }
+.ev-grid { display: grid; grid-template-columns: 1fr; gap: 16px; margin-top: 36px; }
+@media (min-width: 640px) { .ev-grid { grid-template-columns: repeat(3,1fr); } }
+.ev-tag {
+  display: inline-block; font-size: .67rem; font-weight: 700;
+  letter-spacing: .1em; text-transform: uppercase;
+  padding: 3px 10px; border-radius: 4px; margin-bottom: 14px;
+}
+.ev-tag.t { background: rgba(26,92,214,.1); color: #1a5cd6; border: 1px solid rgba(26,92,214,.25); }
+.ev-tag.r { background: rgba(16,148,96,.1); color: #0d8a5a; border: 1px solid rgba(16,148,96,.25); }
+.ev-tag.f { background: rgba(100,116,139,.1); color: #64748b; border: 1px solid rgba(100,116,139,.25); }
+.card h3 { margin-bottom: 10px; }
+.card > p { font-size: .87rem; line-height: 1.68; margin-bottom: 16px; }
+.ev-dl { list-style: none; }
+.ev-dl li {
+  font-size: .82rem; color: var(--text-l); padding: 5px 0;
+  border-bottom: 1px solid rgba(26,92,214,.08);
+  display: flex; align-items: center; gap: 9px;
+}
+.ev-dl li:last-child { border-bottom: none; }
+.ev-dl li i { color: var(--gold); width: 13px; font-size: .72rem; flex-shrink: 0; }
+
+/* ===================== SCHEDULE ===================== */
+#schedule { background: var(--bg-green); }
+.sched {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  padding: 4px 0 16px;
+  margin-top: 28px;
+}
+.dc {
+  background: #ffffff;
+  border: 1px solid rgba(26,92,214,.15); border-radius: var(--r);
+  padding: 18px 12px; text-align: center;
+}
+/* 日曜日（7枚目）は2列スパンで中央寄せ */
+.dc:last-child { grid-column: span 2; max-width: calc(50% - 5px); margin: 0 auto; width: 100%; }
+@media (min-width: 500px) {
+  .sched { grid-template-columns: repeat(4, 1fr); }
+  .dc:last-child { grid-column: auto; max-width: none; margin: 0; }
+}
+@media (min-width: 720px) {
+  .sched { grid-template-columns: repeat(7, 1fr); }
+}
+.dc.t  { border-color: rgba(26,92,214,.4); background: rgba(26,92,214,.05); }
+.dc.r  { border-color: rgba(16,148,96,.35); background: rgba(16,148,96,.05); }
+.dc.sp { border-color: rgba(26,92,214,.55); background: rgba(26,92,214,.08); }
+.dc-en { font-size: .7rem; color: #6b7380; margin-bottom: 3px; letter-spacing: .05em; }
+.dc-jp { font-family: var(--serif); font-size: 1.25rem; font-weight: 700; margin-bottom: 10px; color: var(--text); }
+.dc.t .dc-jp { color: #1a5cd6; }
+.dc.r .dc-jp { color: #0d8a5a; }
+.dc-ev { font-size: .75rem; color: #374151; line-height: 1.55; }
+.dc-b {
+  display: inline-block; margin-top: 8px; font-size: .62rem;
+  padding: 2px 8px; border-radius: 3px;
+  background: rgba(26,92,214,.1); color: #1a5cd6; border: 1px solid rgba(26,92,214,.25);
+}
+.ladies-box {
+  margin-top: 24px; padding: 18px 20px;
+  background: rgba(232,90,160,.05); border: 1px solid rgba(232,90,160,.15);
+  border-radius: var(--r); display: flex; align-items: flex-start; gap: 14px;
+}
+.ladies-box i { color: var(--pink); font-size: 1.25rem; flex-shrink: 0; margin-top: 3px; }
+.ladies-box h4 { font-size: .92rem; color: var(--pink); margin-bottom: 3px; }
+.ladies-box p  { font-size: .82rem; color: var(--text-m); }
+
+/* ===================== PRICE ===================== */
+#price { background: var(--bg); }
+.price-feat {
+  margin-top: 36px; padding: 30px 24px;
+  background: linear-gradient(135deg, #dce8ff, #eef4ff);
+  border: 1.5px solid var(--bord-s); border-radius: var(--r);
+  display: flex; flex-direction: column; align-items: center; text-align: center; gap: 10px;
+}
+.pf-badge {
+  font-size: .68rem; font-weight: 700; letter-spacing: .1em; color: var(--gold);
+  background: rgba(26,92,214,.1); border: 1px solid rgba(26,92,214,.28);
+  border-radius: 4px; padding: 3px 10px;
+}
+.pf-lbl { font-size: .82rem; color: var(--text-m); }
+.pf-amt { font-family: var(--serif); font-size: 2.6rem; font-weight: 700; color: var(--text); line-height: 1; }
+.pf-dis { background: #1a5cd6; color: #ffffff; font-weight: 700; font-size: .78rem; padding: 5px 16px; border-radius: 50px; }
+.pf-note { font-size: .82rem; color: var(--text-m); }
+.price-grid { display: grid; grid-template-columns: 1fr; gap: 14px; margin-top: 14px; }
+@media (min-width: 480px) { .price-grid { grid-template-columns: repeat(3, 1fr); } }
+.pc { text-align: center; padding: 22px 16px; }
+.pc-lbl { font-size: .78rem; color: var(--text-m); margin-bottom: 6px; }
+.pc-amt { font-family: var(--serif); font-size: 1.7rem; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+.pc p { font-size: .8rem; }
+.ladies-note {
+  margin-top: 12px; padding: 13px 18px;
+  border: 1px solid rgba(232,90,160,.15); border-radius: var(--r);
+  background: rgba(232,90,160,.04); font-size: .82rem; color: var(--text-m);
+}
+
+/* ===================== BEGINNERS ===================== */
+#beginners { background: var(--bg-green); }
+.wl {
+  display: grid; grid-template-columns: 1fr; gap: 10px; margin: 28px 0;
+}
+@media (min-width: 420px) { .wl { grid-template-columns: 1fr 1fr; } }
+.wl-i {
+  display: flex; align-items: flex-start; gap: 10px; padding: 14px;
+  background: #ffffff; border: 1px solid rgba(26,92,214,.15);
+  border-radius: var(--r); font-size: .83rem; color: var(--text-l);
+}
+.wl-i i { color: var(--gold); flex-shrink: 0; margin-top: 2px; font-size: .85rem; }
+.faq { margin-top: 24px; }
+.faq-item { border-bottom: 1px solid rgba(26,92,214,.1); }
+.faq-sum {
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  padding: 16px 0; cursor: pointer; font-size: .92rem; font-weight: 500;
+  color: #0d1520; list-style: none;
+}
+.faq-sum::-webkit-details-marker { display: none; }
+.faq-qt { display: flex; gap: 10px; align-items: flex-start; }
+.faq-q  { color: var(--gold); font-weight: 700; flex-shrink: 0; }
+.faq-ic { color: var(--text-m); font-size: .7rem; flex-shrink: 0; transition: transform .2s; }
+details[open] .faq-ic { transform: rotate(180deg); }
+.faq-ans { padding: 0 0 16px 26px; font-size: .86rem; color: var(--text-m); line-height: 1.78; }
+
+/* ===================== ACCESS ===================== */
+#access { background: var(--bg); }
+.acc-grid { display: grid; grid-template-columns: 1fr; gap: 28px; margin-top: 36px; }
+@media (min-width: 768px) { .acc-grid { grid-template-columns: 1fr 1fr; } }
+.acc-row {
+  display: flex; gap: 14px; padding: 14px 0;
+  border-bottom: 1px solid rgba(26,92,214,.1); font-size: .87rem;
+}
+.acc-row:last-of-type { border-bottom: none; }
+.acc-ic  { color: var(--gold); width: 17px; flex-shrink: 0; margin-top: 3px; }
+.acc-lbl { font-size: .75rem; color: var(--text-m); margin-bottom: 2px; }
+.acc-val { color: var(--text); }
+.acc-map {
+  width: 100%; aspect-ratio: 4/3;
+  background: var(--bg-card); border: 1px solid var(--bord); border-radius: var(--r); overflow: hidden;
+}
+.acc-map iframe { width: 100%; height: 100%; border: none; display: block; }
+
+/* ===================== SNS ===================== */
+#sns { background: var(--bg-green); }
+.sns-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 32px; }
+@media (min-width: 640px) {
+  .sns-grid { grid-template-columns: repeat(4,1fr); }
+  .sns-card { flex-direction: column; text-align: center; padding: 24px 14px; }
+  .sns-ic { width: 52px; height: 52px; font-size: 1.3rem; margin-bottom: 4px; }
+}
+.sns-card {
+  display: flex; align-items: center; gap: 14px;
+  padding: 18px 14px; color: var(--text); transition: border-color .2s;
+}
+.sns-card:hover { border-color: var(--bord-s); }
+.sns-ic {
+  width: 42px; height: 42px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.15rem; flex-shrink: 0;
+}
+.sns-ic.x  { background: rgba(13,21,32,.08); color: #0d1520; }
+.sns-ic.ig { background: rgba(193,53,132,.14); color: #e1306c; }
+.sns-ic.yt { background: rgba(255,0,0,.08); color: #ff4040; }
+.sns-ic.nt { background: rgba(68,167,100,.1); color: #44a764; }
+.sns-nm { font-weight: 700; font-size: .88rem; margin-bottom: 2px; }
+.sns-ds { font-size: .74rem; color: var(--text-m); line-height: 1.4; }
+
+/* ===================== FINAL CTA ===================== */
+#cta-f { background: var(--bg-green2); border-top: 1px solid rgba(26,92,214,.2); border-bottom: 1px solid rgba(26,92,214,.2); padding: 72px 0; text-align: center; }
+#cta-f p { max-width: 540px; margin: 0 auto 36px; }
+.f-ctas { display: flex; flex-direction: column; gap: 12px; align-items: stretch; max-width: 400px; margin: 0 auto; }
+.f-ctas .btn { width: 100%; }
+@media (min-width: 640px) { .f-ctas { flex-direction: row; flex-wrap: wrap; justify-content: center; max-width: 700px; }
+  .f-ctas .btn { width: auto; }
+}
+
+/* ===================== FOOTER ===================== */
+footer {
+  background: #0d1a3a; border-top: 1px solid rgba(255,255,255,.04);
+  padding: 36px 20px; text-align: center;
+}
+.f-logo { font-family: var(--serif); font-size: 1.2rem; color: #7aaeff; margin-bottom: 8px; }
+.f-addr { font-size: .78rem; color: rgba(255,255,255,.55); margin-bottom: 14px; line-height: 1.9; }
+.f-links { display: flex; gap: 18px; justify-content: center; flex-wrap: wrap; margin-bottom: 16px; }
+.f-links a { color: rgba(255,255,255,.5); font-size: .78rem; transition: color .2s; }
+.f-links a:hover { color: #7aaeff; }
+.f-copy { font-size: .68rem; color: rgba(255,255,255,.18); }
+
+/* ===================== PRICE DETAIL ===================== */
+.price-top { display: grid; grid-template-columns: 1fr; gap: 14px; margin-top: 36px; }
+@media (min-width: 640px) { .price-top { grid-template-columns: 1fr 1fr; } }
+.price-entry {
+  background: linear-gradient(135deg, #dce8ff, #eef4ff);
+  border: 1.5px solid rgba(26,92,214,.45); border-radius: var(--r);
+  padding: 28px 24px; text-align: center;
+}
+.pe-lbl { font-size: .78rem; color: #4b5878; margin-bottom: 6px; }
+.pe-amt { font-family: var(--serif); font-size: 2.8rem; font-weight: 700; color: #0d1520; line-height: 1; margin-bottom: 6px; }
+.pe-sub { font-size: .78rem; color: #4b5878; margin-bottom: 14px; }
+.line-disc-box {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  background: rgba(6,199,85,.08); border: 1px solid rgba(6,199,85,.25);
+  border-radius: 8px; padding: 10px 14px; font-size: .83rem; color: #047a38; margin-bottom: 14px;
+}
+.line-disc-box i { color: #06C755; font-size: 1.1rem; }
+.drink-table { width: 100%; border-collapse: collapse; margin-top: 8px; }
+.drink-table td { padding: 10px 0; font-size: .88rem; border-bottom: 1px solid rgba(26,92,214,.08); }
+.drink-table td:last-child { text-align: right; font-family: var(--serif); font-weight: 700; color: #1a5cd6; }
+.drink-table tr:last-child td { border-bottom: none; }
+.price-mid { display: grid; grid-template-columns: 1fr; gap: 14px; margin-top: 14px; }
+@media (min-width: 640px) { .price-mid { grid-template-columns: 1fr 1fr; } }
+.chip-table { width: 100%; border-collapse: collapse; margin-top: 8px; }
+.chip-table tr { border-bottom: 1px solid rgba(26,92,214,.08); }
+.chip-table tr:last-child { border-bottom: none; }
+.chip-table td { padding: 9px 0; font-size: .88rem; color: var(--text-l); }
+.chip-table td.bb { font-weight: 700; color: #1a5cd6; font-family: var(--serif); }
+.chip-table td.yen { text-align: right; font-family: var(--serif); font-weight: 700; color: #0d1520; }
+.chip-note { margin-top: 10px; padding: 10px 12px; background: rgba(26,92,214,.06); border-radius: 8px; font-size: .8rem; color: #4b5878; }
+.table-price-box { text-align: center; padding: 14px 0 12px; border-bottom: 1px solid rgba(26,92,214,.1); margin-bottom: 12px; }
+.table-yen { font-family: var(--serif); font-size: 2rem; font-weight: 700; color: #0d1520; }
+.table-sub { font-size: .75rem; color: #4b5878; margin-top: 2px; }
+.table-notes { list-style: none; }
+.table-notes li { font-size: .8rem; color: #4b5878; padding: 4px 0; display: flex; gap: 6px; }
+.table-notes li::before { content: '※'; flex-shrink: 0; color: #1a5cd6; }
+/* ===================== FIXED BAR ===================== */
+#fbar {
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 200;
+  background: rgba(244,247,255,.97); backdrop-filter: blur(12px);
+  border-top: 1px solid var(--bord); padding: 10px 14px;
+  display: flex; gap: 10px;
+  transform: translateY(100%); transition: transform .3s ease;
+}
+#fbar.vis { transform: translateY(0); }
+#fbar .btn { flex: 1; font-size: .8rem; padding: 11px 8px; min-height: 46px; }
+
+/* ===================== SCROLL ANIMATION ===================== */
+.fu { opacity: 0; transform: translateY(16px); transition: opacity .55s, transform .55s; }
+.fu.vis { opacity: 1; transform: none; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#hero" class="nav-logo"><span class="suit">♠</span> Crazy Time</a>
+  <ul class="nav-ul">
+    <li><a href="#about">概要</a></li>
+    <li><a href="#schedule">スケジュール</a></li>
+    <li><a href="#price">料金</a></li>
+    <li><a href="#access">アクセス</a></li>
+  </ul>
+  <a href="https://line.me/ti/g2/N5lDBOAdyYdAF9T0c1yMaWHnKigzUbqLgR4sug?utm_source=invitation&utm_medium=link_copy&utm_campaign=default" target="_blank" rel="noopener noreferrer" class="btn btn-o btn-sm">LINE割引</a>
+</nav>
+
+<!-- ============================================================ 01 HERO -->
+<section id="hero">
+  <video class="hero-video" autoplay="" muted="" loop="" playsinline="" preload="auto">
+    <source src="hero-bg.mp4" type="video/mp4">
+  </video>
+  <div class="h-suit" style="top:8%;left:4%;">♠</div>
+  <div class="h-suit" style="bottom:12%;right:4%;transform:rotate(18deg);">♣</div>
+  <div class="h-suit" style="top:20%;right:8%;font-size:5rem;opacity:.6;">♦</div>
+  <div class="container" style="display:flex;flex-direction:column;align-items:center;position:relative;z-index:3;">
+    <h1 class="h-title" style="font-size: 0.2px">新橋で、ポーカーを<br>もっと<span class="acc" style="color: rgb(255, 168, 215)">楽しく。</span></h1>
+    <p class="h-sub">初心者も経験者も集まるアミューズメントポーカールーム。<br>仕事帰りに、週末に、仲間と一緒に。<br>トーナメント・リングゲーム・無料開放デーまで楽しめる、<br>新橋のポーカースポット。</p>
+    <div class="h-info">
+      <span class="h-info-i"><i class="fa-regular fa-clock"></i> 平日・土曜 18:00〜 / 日曜 17:00〜</span>
+      <span class="h-info-i"><i class="fa-solid fa-train-subway"></i> JR新橋駅烏森口より徒歩2分</span>
+      <span class="h-info-i"><i class="fa-solid fa-user-group"></i> 初心者歓迎</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ 02 ABOUT -->
+<section id="about">
+  <div class="container">
+    <p class="lbl">About</p>
+    <h2>Crazy Timeは、新橋で楽しめる<br>アミューズメントポーカールームです。</h2>
+    <span class="gline"></span>
+    <p class="about-body" style="color:#374151;">東京都港区新橋に位置するCrazy Timeは、テキサスホールデムを中心にトーナメントやリングゲームを楽しめるアミューズメントポーカールームです。仕事帰りや週末に気軽に立ち寄れる空間で、勝ち負けだけでなく、考える楽しさ・読み合い・コミュニケーションをお楽しみいただけます。初心者の方から経験者まで、新橋でポーカーを楽しむならCrazy Timeへ。</p>
+    <div class="about-grid fu">
+      <div class="about-card">
+        <div class="about-icon"><i class="fa-solid fa-hand-holding-heart"></i></div>
+        <h3>初心者でも入りやすい</h3>
+        <p>初めてでもスタッフがサポート。ルールが不安な方も安心してご参加いただけます。1人での来店も大歓迎です。</p>
+      </div>
+      <div class="about-card">
+        <div class="about-icon"><i class="fa-solid fa-trophy"></i></div>
+        <h3>トーナメントで真剣勝負</h3>
+        <p>月・水・金・土を中心に開催。19:30スタートのイベントもあり、仕事帰りでも参加できます。</p>
+      </div>
+      <div class="about-card">
+        <div class="about-icon"><i class="fa-solid fa-circle-play"></i></div>
+        <h3>リングゲームでじっくり練習</h3>
+        <p>火・木・日を中心に開催。時間に縛られず、自分のペースでポーカーを楽しめます。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MID CTA -->
+<div class="mid-cta">
+  <p>LINEオープンチャットに参加すると、入場料が<strong style="color:var(--gold);">330円</strong>お得になります。</p>
+  <a href="https://line.me/ti/g2/N5lDBOAdyYdAF9T0c1yMaWHnKigzUbqLgR4sug?utm_source=invitation&utm_medium=link_copy&utm_campaign=default" target="_blank" rel="noopener noreferrer" class="btn btn-g"><i class="fa-brands fa-line"></i> LINEオープンチャット割引を見る</a>
+</div>
+
+<!-- ============================================================ 03 EVENTS -->
+<section id="events">
+  <div class="container">
+    <p class="lbl">How to Play</p>
+    <h2>その日の気分で選べる、<br>Crazy Timeの楽しみ方</h2>
+    <span class="gline"></span>
+    <div class="ev-grid fu">
+      <!-- Tournament -->
+      <div class="card">
+        <span class="ev-tag t">Tournament</span>
+        <h3>トーナメント練習に最適♣</h3>
+        <p>チップを積み上げ、優勝を目指すポーカーイベント。月・水・金・土曜日に開催。仕事帰りでも参加できます。</p>
+        <ul class="ev-dl">
+          <li><i class="fa-solid fa-calendar-day"></i> 月・水・金・土曜日</li>
+          <li><i class="fa-regular fa-clock"></i> 19:30スタート（水・金曜）</li>
+          <li><i class="fa-solid fa-yen-sign"></i> 参加費 2,200円</li>
+          <li><i class="fa-solid fa-rotate-right"></i> リエントリー 2,200円</li>
+        </ul>
+      </div>
+      <!-- Ring Game -->
+      <div class="card">
+        <span class="ev-tag r">Ring Game</span>
+        <h3>自分のペースで、じっくりと</h3>
+        <p>時間に縛られず、自由なペースでポーカーを楽しめるフリー営業。じっくり腕を磨きたい方に。</p>
+        <ul class="ev-dl">
+          <li><i class="fa-solid fa-calendar-day"></i> リングゲームは毎日開催♦</li>
+          <li><i class="fa-regular fa-clock"></i> 日曜は17:00オープン</li>
+          <li><i class="fa-solid fa-arrows-rotate"></i> クレイジータイムはリングゲームが人気❤</li>
+          <li><i class="fa-solid fa-users"></i> 初心者練習にも最適</li>
+        </ul>
+      </div>
+      <!-- Free Day -->
+      <div class="card">
+        <span class="ev-tag f">Free Day</span>
+        <h3>まずは雰囲気を見てみたい方へ</h3>
+        <p>第2・第4土曜日は無料開放デーを開催。初めての方や見学希望の方も、気軽に足を運べます。</p>
+        <ul class="ev-dl">
+          <li><i class="fa-solid fa-calendar-day"></i> 第2・第4土曜日</li>
+          <li><i class="fa-regular fa-clock"></i> 16:30〜18:00</li>
+          <li><i class="fa-solid fa-gift"></i> 入場料もプレイ料金も無料です。</li>
+          <li><i class="fa-solid fa-eye"></i> 見学・初めての方歓迎</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ 04 SCHEDULE -->
+<section id="schedule">
+  <div class="container">
+    <p class="lbl">Weekly Schedule</p>
+    <h2>週間スケジュール</h2>
+    <span class="gline"></span>
+    <div class="sched">
+      <div class="dc t">
+        <div class="dc-en">Mon</div><div class="dc-jp">月</div>
+        <div class="dc-ev">月曜トーナメント<br>リングゲーム</div>
+        <div class="dc-b">レディースデイ</div>
+      </div>
+      <div class="dc r">
+        <div class="dc-en">Tue</div><div class="dc-jp">火</div>
+        <div class="dc-ev">リングゲーム<br>フリー営業</div>
+      </div>
+      <div class="dc t">
+        <div class="dc-en">Wed</div><div class="dc-jp">水</div>
+        <div class="dc-ev">水曜トーナメント<br>19:30開始<br>リングゲーム</div>
+      </div>
+      <div class="dc r">
+        <div class="dc-en">Thu</div><div class="dc-jp">木</div>
+        <div class="dc-ev">リングゲーム<br>フリー営業</div>
+      </div>
+      <div class="dc t">
+        <div class="dc-en">Fri</div><div class="dc-jp">金</div>
+        <div class="dc-ev">金曜トーナメント<br>19:30開始<br>リングゲーム</div>
+      </div>
+      <div class="dc sp">
+        <div class="dc-en">Sat</div><div class="dc-jp">土</div>
+        <div class="dc-ev">土曜トーナメント<br>リングゲーム<br>第2・第4は無料開放デー</div>
+      </div>
+      <div class="dc r">
+        <div class="dc-en">Sun</div><div class="dc-jp">日</div>
+        <div class="dc-ev">日曜リングゲーム<br>17:00オープン</div>
+      </div>
+    </div>
+    <div class="ladies-box fu">
+      <i class="fa-solid fa-heart"></i>
+      <div>
+        <h4>レディースデイ（毎週月曜日）</h4>
+        <p>20時までの来店で、入場料1,100円＋1ドリンク付き。女性の方も安心してお楽しみいただけます。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ 05 PRICE -->
+<section id="price">
+  <div class="container">
+    <p class="lbl">Price</p>
+    <h2>料金のご案内</h2>
+    <span class="gline"></span>
+    <p style="font-size:.8rem;color:#9ca3af;margin-bottom:4px;">※表示価格はすべて税抜です</p>
+
+    <!-- 入場料 + 飲み放題 -->
+    <div class="price-top fu">
+      <div class="price-entry">
+        <div class="pe-lbl">入場料</div>
+        <div class="pe-amt">¥2,500</div>
+        <div class="pe-sub">初回100BB引出付き / 1ドリンク制</div>
+        <div class="line-disc-box">
+          <i class="fa-brands fa-line"></i>
+          LINEメンバーは <strong>300円引き → ¥2,200</strong>
+        </div>
+        <a href="https://line.me/ti/g2/N5lDBOAdyYdAF9T0c1yMaWHnKigzUbqLgR4sug?utm_source=invitation&utm_medium=link_copy&utm_campaign=default" target="_blank" rel="noopener noreferrer" class="btn btn-g" style="width:100%;"><i class="fa-brands fa-line"></i> LINE割引を受ける</a>
+      </div>
+      <div class="card">
+        <h3 style="margin-bottom:14px;"><i class="fa-solid fa-wine-glass" style="color:var(--gold);margin-right:8px;font-size:.9rem;"></i>飲み放題</h3>
+        <table class="drink-table">
+          <tbody>
+            <tr><td>2時間（アルコール）</td><td>¥3,000</td></tr>
+            <tr><td>2時間（ソフトドリンク）</td><td>¥1,200</td></tr>
+          </tbody>
+        </table>
+        <div style="margin-top:20px;">
+          <h3 style="margin-bottom:12px;"><i class="fa-solid fa-ticket" style="color:var(--gold);margin-right:8px;font-size:.9rem;"></i>トーナメント参加費</h3>
+          <table class="drink-table">
+            <tbody>
+              <tr><td>エントリー</td><td>¥2,200</td></tr>
+              <tr><td>リエントリー</td><td>¥2,200</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- チップ貸出 + テーブル貸切 -->
+    <div class="price-mid fu">
+      <div class="card">
+        <h3 style="margin-bottom:14px;"><i class="fa-solid fa-coins" style="color:var(--gold);margin-right:8px;font-size:.9rem;"></i>チップ貸出</h3>
+        <table class="chip-table">
+          <tbody>
+            <tr><td class="bb">50BB</td><td class="yen">¥2,000</td></tr>
+            <tr><td class="bb">100BB</td><td class="yen">¥3,000</td></tr>
+            <tr><td class="bb">200BB</td><td class="yen">¥5,000</td></tr>
+            <tr><td class="bb">500BB</td><td class="yen">¥12,000</td></tr>
+          </tbody>
+        </table>
+        <div class="chip-note">
+          <strong>チップ引出：</strong>100BB = ¥1,500<br>
+          ※50BB〜500BBでのご遊戯となります
+        </div>
+      </div>
+      <div class="card">
+        <h3 style="margin-bottom:14px;"><i class="fa-solid fa-table" style="color:var(--gold);margin-right:8px;font-size:.9rem;"></i>テーブル貸切</h3>
+        <div class="table-price-box">
+          <div class="table-yen">¥12,000<span style="font-size:.95rem;font-weight:400;color:#4b5878;">/1時間</span></div>
+          <div class="table-sub">ディーラー付き</div>
+        </div>
+        <ul class="table-notes">
+          <li>予約制</li>
+          <li>別途入場料＋1ドリンク</li>
+          <li>営業時間外も対応可能（12:00〜18:00）</li>
+          <li>30分単位で延長可能（1時間の半額）</li>
+          <li>5時間目から1時間 ¥8,000</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- レディースデイ -->
+    <div class="ladies-note" style="margin-top:14px;"><i class="fa-solid fa-heart" style="color:var(--pink);margin-right:7px;"></i><strong style="color:var(--pink);">レディースデイ（月曜日）</strong>：20時までの来店で入場料1,100円＋1ドリンク付き</div>
+  </div>
+</section>
+
+<!-- ============================================================ 06 BEGINNERS -->
+<section id="beginners">
+  <div class="container">
+    <p class="lbl">First Timers</p>
+    <h2>無料の初心者講習で<br>初めてでも安心してゲームを楽しめます。</h2>
+    <span class="gline"></span>
+    <p>ポーカー店に初めて行くのは少し緊張するもの。でも、Crazy Timeなら安心して楽しめます。スタッフがしっかりサポートするので、ルールが分からなくても気軽にご来店ください。</p>
+    <div class="wl fu">
+      <div class="wl-i"><i class="fa-solid fa-check"></i> ルールが分からなくてもOK</div>
+      <div class="wl-i"><i class="fa-solid fa-check"></i> 1人での来店も歓迎</div>
+      <div class="wl-i"><i class="fa-solid fa-check"></i> 仕事帰りの来店も歓迎</div>
+      <div class="wl-i"><i class="fa-solid fa-check"></i> 見学・雰囲気確認も歓迎</div>
+      <div class="wl-i"><i class="fa-solid fa-check"></i> スタッフが丁寧にサポート</div>
+      <div class="wl-i"><i class="fa-solid fa-check"></i> 無料開放デーで気軽に体験</div>
+    </div>
+    <div class="faq">
+      <details class="faq-item">
+        <summary class="faq-sum">
+          <span class="faq-qt"><span class="faq-q">Q.</span>初めてでも参加できますか？</span>
+          <i class="fa-solid fa-chevron-down faq-ic"></i>
+        </summary>
+        <p class="faq-ans">はい、初めての方も大歓迎です。スタッフがルールの説明からサポートします。第2・第4土曜日の無料開放デーも初めての方にぴったりです。</p>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-sum">
+          <span class="faq-qt"><span class="faq-q">Q.</span>1人で行っても大丈夫ですか？</span>
+          <i class="fa-solid fa-chevron-down faq-ic"></i>
+        </summary>
+        <p class="faq-ans">はい、お1人での来店も歓迎しています。1人で来店される方も多く、テーブルで自然に交流が生まれる環境です。</p>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-sum">
+          <span class="faq-qt"><span class="faq-q">Q.</span>どんな服装で行けばいいですか？</span>
+          <i class="fa-solid fa-chevron-down faq-ic"></i>
+        </summary>
+        <p class="faq-ans">普段着で問題ありません。仕事帰りにスーツのままご来店される方も多くいらっしゃいます。カジュアルな服装でも歓迎です。</p>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-sum">
+          <span class="faq-qt"><span class="faq-q">Q.</span>予約は必要ですか？</span>
+          <i class="fa-solid fa-chevron-down faq-ic"></i>
+        </summary>
+        <p class="faq-ans">基本的にはそのままご来店いただけます。最新の営業情報や混雑状況は、公式SNS（X・Instagram）でご確認ください。</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ 07 ACCESS -->
+<section id="access">
+  <div class="container">
+    <p class="lbl">Access</p>
+    <h2>店舗情報・アクセス</h2>
+    <span class="gline"></span>
+    <div class="acc-grid fu">
+      <div>
+        <div class="acc-row">
+          <i class="fa-solid fa-store acc-ic"></i>
+          <div><div class="acc-lbl">店舗名</div><div class="acc-val">Crazy Time（クレイジータイム）</div></div>
+        </div>
+        <div class="acc-row">
+          <i class="fa-solid fa-location-dot acc-ic"></i>
+          <div><div class="acc-lbl">住所</div><div class="acc-val">東京都港区新橋3-11-2 cozy新橋5F</div></div>
+        </div>
+        <div class="acc-row">
+          <i class="fa-solid fa-phone acc-ic"></i>
+          <div><div class="acc-lbl">電話番号</div><div class="acc-val"><a href="tel:0367215595" style="color:var(--text);">03-6721-5595</a></div></div>
+        </div>
+        <div class="acc-row">
+          <i class="fa-regular fa-clock acc-ic"></i>
+          <div>
+            <div class="acc-lbl">営業時間</div>
+            <div class="acc-val">
+              月〜土：18:00〜LAST<br>
+              日曜：17:00〜LAST<br>
+              <span style="font-size:.78rem;color:var(--text-m);">第2・第4土曜 16:30〜18:00 無料開放デー</span>
+            </div>
+          </div>
+        </div>
+        <div class="acc-row">
+          <i class="fa-solid fa-globe acc-ic"></i>
+          <div><div class="acc-lbl">公式サイト</div><div class="acc-val"><a href="https://poker-crazytime.jp" target="_blank" rel="noopener noreferrer" style="color:var(--gold);">poker-crazytime.jp</a></div></div>
+        </div>
+        <a href="https://www.google.com/maps/search/?api=1&query=%E6%9D%B1%E4%BA%AC%E9%83%BD%E6%B8%AF%E5%8C%BA%E6%96%B0%E6%A9%8B3-11-2+cozy%E6%96%B0%E6%A9%8B5F" target="_blank" rel="noopener noreferrer" class="btn btn-o" style="margin-top:20px;"><i class="fa-solid fa-map-location-dot"></i> Google Mapで場所を見る</a>
+      </div>
+      <div class="acc-map">
+        <iframe
+          src="https://maps.google.com/maps?q=%E6%9D%B1%E4%BA%AC%E9%83%BD%E6%B8%AF%E5%8C%BA%E6%96%B0%E6%A9%8B3-11-2&z=17&output=embed&hl=ja"
+          title="Crazy Time 店舗地図" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ 07.5 CONTACT CTA -->
+<div class="mid-cta" style="background:#edf2ff;">
+  <p style="font-size:.95rem;color:#374151;">ご質問・ご不明な点はお気軽にお問い合わせください。</p>
+  <a href="https://forms.gle/rd7iM7DVPjaSFPrp8" target="_blank" rel="noopener noreferrer" class="btn btn-o btn-lg"><i class="fa-solid fa-envelope"></i> お問い合わせフォームへ</a>
+</div>
+
+<!-- ============================================================ 08 SNS -->
+<section id="sns">
+  <div class="container">
+    <p class="lbl">Follow Us</p>
+    <h2>最新情報はSNSでチェック</h2>
+    <span class="gline"></span>
+    <p>イベント情報・営業状況は各SNSで随時発信中。フォローして最新情報をキャッチしてください。</p>
+    <div class="sns-grid fu">
+      <a href="https://x.com/xxctimexx" target="_blank" rel="noopener noreferrer" class="card sns-card">
+        <div class="sns-ic x"><i class="fa-brands fa-x-twitter"></i></div>
+        <div><div class="sns-nm">@xxctimexx</div><div class="sns-ds">最新営業情報・イベント情報</div></div>
+      </a>
+      <a href="https://www.instagram.com/xxctimexx" target="_blank" rel="noopener noreferrer" class="card sns-card">
+        <div class="sns-ic ig"><i class="fa-brands fa-instagram"></i></div>
+        <div><div class="sns-nm">@xxctimexx</div><div class="sns-ds">店内の雰囲気・フォト投稿</div></div>
+      </a>
+      <a href="https://www.youtube.com/@xxCrazyTimexx" target="_blank" rel="noopener noreferrer" class="card sns-card">
+        <div class="sns-ic yt"><i class="fa-brands fa-youtube"></i></div>
+        <div><div class="sns-nm">xxCrazyTimexx</div><div class="sns-ds">ポーカー動画・イベントレポート</div></div>
+      </a>
+      <a href="https://note.com/xxctimexx" target="_blank" rel="noopener noreferrer" class="card sns-card">
+        <div class="sns-ic nt"><i class="fa-solid fa-pen-nib"></i></div>
+        <div><div class="sns-nm">Poker Lab Tokyo</div><div class="sns-ds">ポーカーの考え方や戦略記事を発信中</div></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ 09 FINAL CTA -->
+<section id="cta-f">
+  <div class="container">
+    <h2>今日、ポーカーを遊びに行こう。</h2>
+    <span class="gline c"></span>
+    <p>新橋でポーカーを楽しむならCrazy Timeへ。<br>初心者も経験者も、仕事帰りでも週末でも、気軽に遊べるアミューズメントポーカールームです。</p>
+    <div class="f-ctas">
+      <a href="https://line.me/ti/g2/N5lDBOAdyYdAF9T0c1yMaWHnKigzUbqLgR4sug?utm_source=invitation&utm_medium=link_copy&utm_campaign=default" target="_blank" rel="noopener noreferrer" class="btn btn-g btn-lg"><i class="fa-brands fa-line"></i> LINE割引を見る</a>
+      <a href="https://x.com/xxctimexx" target="_blank" rel="noopener noreferrer" class="btn btn-o btn-lg"><i class="fa-brands fa-x-twitter"></i> 最新情報を見る</a>
+      <a href="https://forms.gle/rd7iM7DVPjaSFPrp8" target="_blank" rel="noopener noreferrer" class="btn btn-dk btn-lg"><i class="fa-solid fa-envelope"></i> お問い合わせ</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="f-logo">Crazy Time</div>
+  <div class="f-addr">
+    東京都港区新橋3-11-2 cozy新橋5F<br>
+    TEL: 03-6721-5595　／　月〜土 18:00〜LAST　日曜 17:00〜LAST
+  </div>
+  <div class="f-links">
+    <a href="https://poker-crazytime.jp" target="_blank" rel="noopener noreferrer">公式サイト</a>
+    <a href="https://x.com/xxctimexx" target="_blank" rel="noopener noreferrer">X</a>
+    <a href="https://www.instagram.com/xxctimexx" target="_blank" rel="noopener noreferrer">Instagram</a>
+    <a href="https://www.youtube.com/@xxCrazyTimexx" target="_blank" rel="noopener noreferrer">YouTube</a>
+    <a href="https://note.com/xxctimexx" target="_blank" rel="noopener noreferrer">Note</a>
+  </div>
+  <div class="f-copy">© 2025 Crazy Time. All rights reserved.</div>
+</footer>
+
+<!-- FIXED BOTTOM BAR -->
+<div id="fbar">
+  <a href="https://line.me/ti/g2/N5lDBOAdyYdAF9T0c1yMaWHnKigzUbqLgR4sug?utm_source=invitation&utm_medium=link_copy&utm_campaign=default" target="_blank" rel="noopener noreferrer" class="btn btn-g"><i class="fa-brands fa-line"></i> LINE割引を見る</a>
+  <a href="#schedule" class="btn btn-o">今日の営業情報</a>
+</div>
+
+<script>
+// Fixed bar: show after scrolling past hero
+const hero = document.getElementById('hero');
+const fbar = document.getElementById('fbar');
+const heroObs = new IntersectionObserver(entries => {
+  fbar.classList.toggle('vis', !entries[0].isIntersecting);
+}, { threshold: 0.05 });
+heroObs.observe(hero);
+
+// Fade-up on scroll
+const fuEls = document.querySelectorAll('.fu');
+const fuObs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('vis'); });
+}, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
+fuEls.forEach(el => fuObs.observe(el));
+</script>
+</body>
+</html>
